@@ -1,0 +1,10 @@
+[
+  {
+    "Description": "lwcs-ubuntu-base-image",
+    "Format": "raw",
+    "UserBucket": {
+        "S3Bucket": "cse-lwcs-bucket",
+        "S3Key": "lwcs-ubuntu-2004.raw"
+    }
+  }
+]

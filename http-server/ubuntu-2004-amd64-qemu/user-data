@@ -1,0 +1,82 @@
+#cloud-config
+autoinstall:
+  version: 1
+  early-commands:
+    - sudo systemctl stop ssh
+  locale: C.UTF-8
+  keyboard:
+    layout: us
+    apt:
+    preserve_sources_list: false
+    primary:
+        - arches: [i386, amd64]
+          uri: "http://archive.ubuntu.com/ubuntu"
+        - arches: [default]
+          uri: "http://ports.ubuntu.com/ubuntu-ports"
+    geoip: true
+storage:
+    config:
+    - {ptable: gpt, path: /dev/sda, wipe: superblock, preserve: false, name: '', grub_device: false,
+      type: disk, id: disk-sda}
+    - {path: /dev/sdb, wipe: superblock, preserve: false, name: '', grub_device: false,
+      type: disk, id: disk-sdb}
+    - name: root-home
+      devices: [disk-sdb]
+      preserve: false
+      type: lvm_volgroup
+      id: lvm_volgroup-1
+    - {name: root, volgroup: lvm_volgroup-1, size: 53687091200B, wipe: superblock,
+      preserve: false, type: lvm_partition, id: lvm_partition-8}
+    - {fstype: xfs, volume: lvm_partition-8, preserve: false, type: format, id: format-11}
+    - {device: format-11, path: /, type: mount, id: mount-10}
+    - {name: home, volgroup: lvm_volgroup-1, size: 53687091200B, wipe: superblock,
+      preserve: false, type: lvm_partition, id: lvm_partition-9}
+    - {fstype: xfs, volume: lvm_partition-9, preserve: false, type: format, id: format-12}
+    - {device: format-12, path: /home, type: mount, id: mount-11}
+    - {device: disk-sda, size: 536870912, wipe: superblock, flag: boot, number: 1,
+      preserve: false, grub_device: true, type: partition, id: partition-0}
+    - {fstype: fat32, volume: partition-0, preserve: false, type: format, id: format-14}
+    - {device: disk-sda, size: 4294967296, wipe: superblock, flag: '', number: 2,
+      preserve: false, grub_device: false, type: partition, id: partition-1}
+    - {fstype: xfs, volume: partition-1, preserve: false, type: format, id: format-15}
+    - {device: disk-sda, size: 12884901888, wipe: superblock, flag: '', number: 3,
+      preserve: false, grub_device: false, type: partition, id: partition-2}
+  - {device: disk-sda, size: 1073741824, wipe: superblock, flag: '', number: 4,
+      preserve: false, grub_device: false, type: partition, id: partition-3}
+    - {fstype: xfs, volume: partition-3, preserve: false, type: format, id: format-17}
+    - {device: format-17, path: /boot, type: mount, id: mount-16}
+    - {device: disk-sda, size: 15032385536, wipe: superblock, flag: '', number: 5,
+      preserve: false, grub_device: false, type: partition, id: partition-4}
+    - {fstype: xfs, volume: partition-4, preserve: false, type: format, id: format-18}
+    - {device: format-18, path: /tmp, type: mount, id: mount-17}
+    - {device: disk-sda, size: 15032385536, wipe: superblock, flag: '', number: 6,
+      preserve: false, grub_device: false, type: partition, id: partition-5}
+    - {fstype: xfs, volume: partition-5, preserve: false, type: format, id: format-19}
+    - {device: format-19, path: /var, type: mount, id: mount-18}
+    - {device: disk-sda, size: 15032385536, wipe: superblock, flag: '', number: 7,
+      preserve: false, grub_device: false, type: partition, id: partition-6}
+    - {fstype: xfs, volume: partition-6, preserve: false, type: format, id: format-20}
+    - {device: format-20, path: /opt, type: mount, id: mount-19}
+    - {device: disk-sda, size: 4294967296, wipe: superblock, flag: '', number: 8,
+      preserve: false, grub_device: false, type: partition, id: partition-7}
+    - {fstype: xfs, volume: partition-7, preserve: false, type: format, id: format-22}
+    - {device: format-22, path: /var/tmp, type: mount, id: mount-21}
+    - {device: disk-sda, size: 4294967296, wipe: superblock, flag: swap, number: 9,
+      preserve: false, grub_device: false, type: partition, id: partition-8}
+    - {fstype: swap, volume: partition-8, preserve: false, type: format, id: format-23}
+    - {device: format-23, path: '', type: mount, id: mount-22}
+    - {fstype: xfs, volume: partition-2, preserve: false, type: format, id: format-24}
+    - {device: format-24, path: /var/log, type: mount, id: mount-23}
+    - {device: format-14, path: /boot/efi, type: mount, id: mount-13}
+    - {device: format-15, path: /var/log/audit, type: mount, id: mount-14}
+  identity:
+    hostname: ubuntu
+    username: ubuntu
+    password: $6$rounds=4096$Sd7RHLXSCL$mNBlC5DWkmjdw3fX9lKdnWgyzA3XUZ9tdxDUG40VNlKumY4QpBmPZBaT3GcHytZe.nr2UGwGpISWhbct0kENx.
+  ssh:
+    allow-pw: true
+    authorized-keys: []
+    install-server: true
+  late-commands:
+    - "echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu"
+    - "chmod 440 /target/etc/sudoers.d/ubuntu"
