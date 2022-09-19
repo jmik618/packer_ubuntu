@@ -1,12 +1,12 @@
 source "qemu" "ubuntu-2004-amd64-qemu" {
   headless          = "true"
   vm_name           = "ubuntu-2004-amd64-qemu"
-  iso_url           = "https://releases.ubuntu.com/20.04/ubuntu-20.04.3-live-server-amd64.iso"
-  iso_checksum      = "f8e3086f3cea0fb3fefb29937ab5ed9d19e767079633960ccb50e76153effc98"
+  iso_url           = "https://releases.ubuntu.com/focal/ubuntu-20.04.5-live-server-amd64.iso"
+  iso_checksum      = "5035be37a7e9abbdc09f0d257f3e33416c1a0fb322ba860d42d74aa75c3468d4"
   memory            = 1024
   disk_image        = false
   output_directory  = "output-ubuntu-2004-amd64-qemu"
-  accelerator       = "hvf"
+  accelerator       = "kvm"
   disk_size         = "69632M"
   disk_interface    = "virtio"
   format            = "qcow2"
@@ -35,12 +35,10 @@ source "qemu" "ubuntu-2004-amd64-qemu" {
   ]
   http_directory    = "http-server"
   shutdown_command  = "echo 'packer' | sudo -S shutdown -P now"
-  ssh_username      = "ubuntu"
-  ssh_password      = "ubuntu"
+  ssh_username      = "ondemand"
   ssh_timeout       = "600m"
 }
 
 build {
   sources = ["source.qemu.ubuntu-2004-amd64-qemu"]
-
 }
