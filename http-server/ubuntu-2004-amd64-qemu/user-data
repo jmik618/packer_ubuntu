@@ -85,12 +85,12 @@ autoinstall:
       id: lvm_volgroup-0
     - name: ubuntu-lv
       volgroup: lvm_volgroup-0
-      size: 35429285888B
+      size: 10737418240B
       wipe: superblock
       preserve: false
       type: lvm_partition
       id: lvm_partition-0
-    - fstype: ext4
+    - fstype: xfs
       volume: lvm_partition-0
       preserve: false
       type: format
