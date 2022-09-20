@@ -34,7 +34,7 @@ source "qemu" "ubuntu-2004-amd64-qemu" {
     "<enter>"
   ]
   http_directory    = "http-server"
-  shutdown_command  = "echo 'packer' | sudo -S shutdown -P now"
+  shutdown_command  = "echo '1/5=OneF1ft#' | sudo -S shutdown -P now"
   ssh_username      = "ondemand"
   ssh_password      = "1/5=OneF1ft#"
   ssh_timeout       = "600m"
