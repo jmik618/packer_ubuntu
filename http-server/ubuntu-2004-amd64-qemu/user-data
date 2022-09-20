@@ -216,4 +216,6 @@ autoinstall:
       type: mount
       id: mount-0
   updates: security
+  late-commands:
+    - "systemctl start ssh"
   version: 1
