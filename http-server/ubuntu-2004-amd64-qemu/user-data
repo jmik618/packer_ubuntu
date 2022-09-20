@@ -35,6 +35,13 @@ autoinstall:
   - openssh-server
   - open-vm-tools
   - cloud-init
+  - realmd
+  - ubuntu-advantage-tools
+  - adcli
+  - oddjob-mkhomedir
+  - chrony
+  - vim
+  - libpam-pwquality
   ssh:
     allow-pw: true
     authorized-keys: []
@@ -77,7 +84,7 @@ autoinstall:
       preserve: false
       type: partition
       id: partition-2
-    - name: ubuntu-vg
+    - name: ubuntu-base
       devices:
       - partition-2
       preserve: false
@@ -131,7 +138,7 @@ autoinstall:
       device: format-3
       type: mount
       id: mount-3
-    - name: var-log
+    - name: varlog
       volgroup: lvm_volgroup-0
       size: 4294967296B
       wipe: superblock
@@ -147,7 +154,7 @@ autoinstall:
       device: format-4
       type: mount
       id: mount-4
-    - name: var-tmp
+    - name: vartmp
       volgroup: lvm_volgroup-0
       size: 4294967296B
       wipe: superblock
@@ -163,7 +170,7 @@ autoinstall:
       device: format-5
       type: mount
       id: mount-5
-    - name: var-log-audit
+    - name: varlogaudit
       volgroup: lvm_volgroup-0
       size: 4294967296B
       wipe: superblock
