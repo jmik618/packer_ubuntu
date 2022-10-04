@@ -7,7 +7,7 @@ source "qemu" "ubuntu-2004-amd64-qemu" {
   disk_image        = false
   output_directory  = "output-ubuntu-2004-amd64-qemu"
   accelerator       = "kvm"
-  disk_size         = "69632M"
+  disk_size         = "77824M"
   disk_interface    = "virtio"
   format            = "qcow2"
   net_device        = "virtio-net"
