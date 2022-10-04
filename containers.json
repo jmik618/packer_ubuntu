@@ -1,0 +1,10 @@
+[
+  {
+    "Description": "Ubuntu Base Image",
+    "Format": "raw",
+    "UserBucket": {
+      "S3Bucket": "linux-base-images",
+      "S3Key": "Base-CIS-Ubuntu20-04-05-2022-03-10.raw"
+    }
+  }
+]

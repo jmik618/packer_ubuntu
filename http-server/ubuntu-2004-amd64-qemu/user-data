@@ -56,14 +56,6 @@ autoinstall:
       grub_device: true
       type: disk
       id: disk-vda
-    - ptable: gpt
-      path: /dev/vdb
-      wipe: superblock
-      preserve: false
-      name: ''
-      grub_device: false
-      type: disk
-      id: disk-vdb
     - device: disk-vda
       size: 1048576
       flag: bios_grub

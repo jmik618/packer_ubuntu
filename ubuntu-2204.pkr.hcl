@@ -4,14 +4,14 @@ variable "build_password" {
   sensitive   = true
 }
 
-source "qemu" "ubuntu-2004-amd64-qemu" {
+source "qemu" "ubuntu-2204-amd64-qemu" {
   headless          = "true"
-  vm_name           = "ubuntu-2004-amd64-qemu"
-  iso_url           = "https://releases.ubuntu.com/focal/ubuntu-20.04.5-live-server-amd64.iso"
-  iso_checksum      = "5035be37a7e9abbdc09f0d257f3e33416c1a0fb322ba860d42d74aa75c3468d4"
+  vm_name           = "ubuntu-2204-amd64-qemu"
+  iso_url           = "https://releases.ubuntu.com/jammy/ubuntu-22.04.1-live-server-amd64.iso"
+  iso_checksum      = "10f19c5b2b8d6db711582e0e27f5116296c34fe4b313ba45f9b201a5007056cb"
   memory            = 1024
   disk_image        = false
-  output_directory  = "output-ubuntu-2004-amd64-qemu"
+  output_directory  = "output-ubuntu-2204-amd64-qemu"
   accelerator       = "kvm"
   disk_size         = "77824M"
   disk_interface    = "virtio"
@@ -36,7 +36,7 @@ source "qemu" "ubuntu-2004-amd64-qemu" {
     "/casper/vmlinuz ",
     "initrd=/casper/initrd ",
     "autoinstall ",
-    "ds=nocloud-net;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu-2004-amd64-qemu/ ",
+    "ds=nocloud-net;s=http://{{.HTTPIP}}:{{.HTTPPort}}/ubuntu-2204-amd64-qemu/ ",
     "<enter>"
   ]
   http_directory    = "http-server"
@@ -47,5 +47,5 @@ source "qemu" "ubuntu-2004-amd64-qemu" {
 }
 
 build {
-  sources = ["source.qemu.ubuntu-2004-amd64-qemu"]
+  sources = ["source.qemu.ubuntu-2204-amd64-qemu"]
 }
