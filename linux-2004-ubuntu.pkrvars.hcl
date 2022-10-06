@@ -1,0 +1,6 @@
+vm_name = "saas-ubuntu-2004"
+iso_image_url = "https://releases.ubuntu.com/focal/ubuntu-20.04.5-live-server-amd64.iso"
+iso_image_checksum = ""
+output_directory = "output-ubuntu-2004-amd64-qemu"
+user_data_dir = "ubuntu-2004-amd64-qemu"
+build_password = ""
