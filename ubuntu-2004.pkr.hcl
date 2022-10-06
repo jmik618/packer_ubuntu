@@ -1,31 +1,26 @@
 variable "vm_name" {
   type        = string
   description = "Name of the VM Instance being built"
-  sensitive   = true
 }
 
 variable "iso_image_url" {
   type        = string
   description = "URL to be used to pull down the ISO for new image"
-  sensitive   = true
 }
 
 variable "iso_image_checksum" {
   type        = string
   description = "SHA256 hash for the 'iso_image_url' being used"
-  sensitive   = true
 }
 
 variable "output_directory" {
   type        = string
   description = "Directory where the image will be placed once 'packer build' command completes"
-  sensitive   = true
 }
 
 variable "user_data_dir" {
   type        = string
   description = "Directory NAME where the Ubuntu subiquity 'user-data' file exists with unattended installtion values\n This directory must already exist"
-  sensitive   = true
 }
 
 variable "build_password" {
@@ -78,5 +73,5 @@ source "qemu" "ubuntu-amd64-qemu" {
 }
 
 build {
-  sources = ["source.qemu.ubuntu-2004-amd64-qemu"]
+  sources = ["source.qemu.ubuntu--amd64-qemu"]
 }
