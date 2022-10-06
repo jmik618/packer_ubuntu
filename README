@@ -1,79 +1,44 @@
 Basic notes on how to use packer and qemu to build a new image that gets
 uploaded to AWS S3 and converted to an AMI to use in EC2.
 
-This should be expanded on to work with Azure, GCE, and VMWare as well.
-We should use Jenkins so that rebuilding the base image should cause any
-images that use the base to get automatically rebuilt.
+# Run the packer build installation
+sudo packer build --var-file=linux-ubuntu.pkrvars.hcl  ubuntu.pkr.hcl
 
-!!!NOTE ABOUT THE PACKER INSTALL!!!
-During the install, DO NOT do anything at the boot menu. After approximately
-10 seconds, Packer will choose the appropriate boot entry and add any kernel
-arguments that are needed. If you need to add more yourself, alter the JSON
-file that you told Packer to use.
+# To view the details of the image that was created in the previous step: 
+qemu-img info <imageName>
 
-# Set up packer directory
-mkdir -p ~/packer/linux/centos/7
-cd ~/packer/linux/centos/7
+# Run this command to convert QCOW2 to RAW format
+qemu-img convert <imageDirectoryLocation>/<nameOfImage> <imageDirectoryLocation>/<nameOfImage>.raw
 
-# Edit centos7-manual.json file for manual install if needed.
-# This is a good step to use to make sure the environment is set up correctly
-# for qemu builds.
-vim centos7-manual.json
+# In order to copy RAW file to AWS: Install and configure 'awscli' with AWS credentials
+# If you do not have 'awscli' installed you can get it from: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 
-# Run the manual install
-packer build centos7-manual.json
-
-# OPTIONAL: Run qemu on the image with the drives on nvme devices
-# Best to do this on a home machine since it uses VNC.
-# If you do this on an ONBMC machine, add "-display none"
-qemu-x86_64 -writeconfig qemu.config -cpu host -smp 2 -m 4096M \
-  -accel kvm,thread=multi -device nvme,drive=drive0,serial=foo \
-  -drive if=none,file=output_centos_76_base/centos-7.6-base,id=drive0,cache=writeback,discard=ignore,format=qcow2
-
-# Once the manual install has finished, remove the output directory
-rm -rf output*
-
-# Once the manual install is working, edit the kickstart file if necessary.
-# This shouldn't be needed often, if at all.
-vim kickstart/ks.cfg
-
-# Kick off the automated build
-packer build centos7-kickstart.json 
-
-# Skip this if you aren't interested in details about the qcow2 image
-qemu-img info centos-7.6-base 
-
-# Convert QCOW2 to RAW format
-qemu-img convert output/centos-7.6-base output/centos-7.6-base.raw
-
-# Install and configure awscli if needed
-mkdir ~/.aws
-aws configure
-
-# Make sure AWS credentials work.
+# Test AWS credentials by running the following command: 
 aws s3 ls
 
-# Create new bucket if needed in the region.
-# This shouldn't be needed.
-aws s3 mb s3://packer-linux-images
+# If you need to create a new bucket if needed in the AWS region you're using:
+aws s3 mb s3://<nameOfBucket>
 
-# Upload the converted image to S3
-aws s3 cp output/centos-7.6-base.raw s3://packer-linux-images
+# Run this command to upload the converted image to the S3 bucket:
+aws s3 cp <imageDirectoryLocation>/<nameOfImage>.raw s3://<nameOfBucket>
 
-# Edit container.json as necessary
-# Again, shouldn't be necessary.
-vim container.json
+# In order to import the RAW image into AWS for use.  You must have a file that contains details about the RAW image to be imported.
+#   The file can be named anything, but should contain the information listed below and have the json extension: <nameOfFile>.json
+[
+  {
+    "Description": "<detailedDescriptionOfImage>",
+    "Format": "raw",
+    "UserBucket": {
+      "S3Bucket": "<nameOfBucket>",
+      "S3Key": "<nameOfImage>.raw"
+    }
+  }
+]
 
 # Import the image to a new AMI
-aws ec2 import-image --description "CentOS 7.6 Base Image" --architecture x86_64 --platform Linux --disk-containers file://containers.json
+aws ec2 import-image --description "<detailedDescriptionOfImage>" --architecture x86_64 --platform Linux --disk-containers file://<nameOfFile>.json
 
-# Watch the conversion/import process.
-# Update us-west-2 with whatever region you used.
-# Shouldn't need to use a different region, we can copy from this region to
-# different ones as needed. Automatically, even.
-watch -n 1 aws ec2 describe-import-image-tasks --region us-west-2
+# In order to watch the conversion/import process you can run the following command.
+watch -n 1 aws ec2 describe-import-image-tasks --region <regionWhereS3BucketExists>
 
-# Conversion/import is completed at this point, or errored.
-# If completed, launch a new instance with the new AMI to test.
-# This should be automated, but isn't yet.
-
+# Once the import process has completed you should now see an AMI to be used for AWS EC2 Instances

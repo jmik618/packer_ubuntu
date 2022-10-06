@@ -14,11 +14,6 @@ autoinstall:
       uri: http://ports.ubuntu.com/ubuntu-ports
   drivers:
     install: false
-  identity:
-    hostname: saas-ubuntu
-    password: $6$iAQzzFg.yD1K4ufj$A/r5DKabC93ScB.GXiFi6LfL8wUHvJao/gsI6Le0aTVw1ersvE4OfSHkHG9gU4CkC3ypxNIRFFggiNN7xXHxQ/
-    realname: ondemand
-    username: ondemand
   kernel:
     package: linux-generic
   keyboard:
@@ -32,6 +27,7 @@ autoinstall:
         dhcp4: true
     version: 2
   packages:
+  - qemu-guest-agent
   - openssh-server
   - open-vm-tools
   - cloud-init
@@ -46,6 +42,26 @@ autoinstall:
     allow-pw: true
     authorized-keys: []
     install-server: true
+  user-data:
+    preserve_hostname: false
+    hostname: saas-ubuntu-2204
+    package_upgrade: true
+    timezone: UTC
+    chpasswd:
+      expire: true
+      list:
+        - user1:packerubuntu
+    users:
+      - name: ondemand
+        passwd: $6$iAQzzFg.yD1K4ufj$A/r5DKabC93ScB.GXiFi6LfL8wUHvJao/gsI6Le0aTVw1ersvE4OfSHkHG9gU4CkC3ypxNIRFFggiNN7xXHxQ/
+        groups: [adm, cdrom, dip, plugdev, lxd, sudo]
+        lock-passwd: false
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        shell: /bin/bash
+      - name: user1
+        plain-txt-passwd: packerubuntu
+        lock-passwd: false
+        shell: /bin/bash
   storage:
     config:
     - ptable: gpt
@@ -265,4 +281,5 @@ autoinstall:
   updates: security
   late-commands:
     - "systemctl start ssh"
+    - "sudo apt update && sudo apt install -y efibootmgr"
   version: 1
