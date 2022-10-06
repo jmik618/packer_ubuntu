@@ -73,5 +73,5 @@ source "qemu" "ubuntu-amd64-qemu" {
 }
 
 build {
-  sources = ["source.qemu.ubuntu--amd64-qemu"]
+  sources = ["source.qemu.ubuntu-amd64-qemu"]
 }
