@@ -1,4 +1,4 @@
-#cloud-config
+##cloud-config
 autoinstall:
   apt:
     disable_components: []
