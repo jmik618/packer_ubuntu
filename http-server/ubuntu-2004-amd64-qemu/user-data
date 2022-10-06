@@ -57,14 +57,14 @@ autoinstall:
       type: disk
       id: disk-vda
     - device: disk-vda
-      size: 100M
+      size: 1048576
       flag: bios_grub
       number: 1
       preserve: false
       type: partition
       id: partition-0
     - device: disk-vda
-      size: 2G
+      size: 2147483648
       wipe: superblock
       flag: ''
       number: 2
@@ -92,7 +92,7 @@ autoinstall:
       id: lvm_volgroup-0
     - name: root
       volgroup: lvm_volgroup-0
-      size: 10G
+      size: 10737418240B
       wipe: superblock
       preserve: false
       type: lvm_partition
@@ -108,7 +108,7 @@ autoinstall:
       id: mount-1
     - name: home
       volgroup: lvm_volgroup-0
-      size: 10G
+      size: 10737418240B
       wipe: superblock
       preserve: false
       type: lvm_partition
@@ -124,7 +124,7 @@ autoinstall:
       id: mount-2
     - name: var
       volgroup: lvm_volgroup-0
-      size: 8G
+      size: 8589934592B
       wipe: superblock
       preserve: false
       type: lvm_partition
@@ -140,7 +140,7 @@ autoinstall:
       id: mount-3
     - name: varlog
       volgroup: lvm_volgroup-0
-      size: 4G
+      size: 4294967296B
       wipe: superblock
       preserve: false
       type: lvm_partition
@@ -156,7 +156,7 @@ autoinstall:
       id: mount-4
     - name: vartmp
       volgroup: lvm_volgroup-0
-      size: 4G
+      size: 4294967296B
       wipe: superblock
       preserve: false
       type: lvm_partition
@@ -172,7 +172,7 @@ autoinstall:
       id: mount-5
     - name: varlogaudit
       volgroup: lvm_volgroup-0
-      size: 4G
+      size: 4294967296B
       wipe: superblock
       preserve: false
       type: lvm_partition
@@ -188,7 +188,7 @@ autoinstall:
       id: mount-6
     - name: opt
       volgroup: lvm_volgroup-0
-      size: 8G
+      size: 8589934592B
       wipe: superblock
       preserve: false
       type: lvm_partition
@@ -204,7 +204,7 @@ autoinstall:
       id: mount-7
     - name: tmp
       volgroup: lvm_volgroup-0
-      size: 10G
+      size: 10737418240B
       wipe: superblock
       preserve: false
       type: lvm_partition
@@ -223,7 +223,7 @@ autoinstall:
       type: mount
       id: mount-0
     swap:
-      size: 4G
+      size: 4g
   updates: security
   late-commands:
     - "systemctl start ssh"

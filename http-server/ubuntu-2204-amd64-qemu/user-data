@@ -68,7 +68,7 @@ autoinstall:
       path: /dev/vda
       wipe: superblock
       preserve: false
-      name: 'base-bmc'
+      name: ''
       grub_device: true
       type: disk
       id: disk-vda
@@ -100,22 +100,6 @@ autoinstall:
       preserve: false
       type: partition
       id: partition-2
-    - name: optbmc
-      volgroup: lvm_volgroup-1
-      size: 8G
-      wipe: superblock
-      preserve: false
-      type: lvm_partition
-      id: lvm_partition-1
-    - fstype: xfs
-      volume: lvm_partition-1
-      preserve: false
-      type: format
-      id: format-9
-    - path: /opt/bmc
-      device: format-9
-      type: mount
-      id: mount-9
     - name: ubuntu-base
       devices:
       - partition-2
