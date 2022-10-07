@@ -251,8 +251,12 @@ autoinstall:
       device: format-0
       type: mount
       id: mount-0
+    - path: /swap
+      device: format-10
+      type: mount
+      id: mount-10
     swap:
-      size: 4294967296B
+      size: 0
   updates: security
   late-commands:
     - "systemctl start ssh"
