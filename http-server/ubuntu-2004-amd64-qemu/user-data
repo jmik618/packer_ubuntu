@@ -77,7 +77,20 @@ autoinstall:
       type: format
       id: format-0
     - device: disk-vda
-      size: 75G
+      size: 4G
+      wipe: superblock
+      flag: 'swap'
+      number: 4
+      preserve: false
+      type: partition
+      id: partition-10
+    - fstype: swap
+      volume: partition-10
+      preserve: false
+      type: format
+      id: format-10
+    - device: disk-vda
+      size: 71G
       wipe: superblock
       flag: ''
       number: 3
