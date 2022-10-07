@@ -38,8 +38,7 @@ source "qemu" "ubuntu-amd64-qemu" {
   disk_image           = false
   output_directory     = "${var.output_directory}"
   accelerator          = "kvm"
-  disk_size            = "68G"
-  disk_additional_size = ["10G"]
+  disk_size            = "78G"
   disk_interface       = "virtio"
   format               = "qcow2"
   net_device           = "virtio-net"
