@@ -1,0 +1,10 @@
+[
+  {
+    "Description": "Ubuntu Base Image 22.04.1 - with swap",
+    "Format": "raw",
+    "UserBucket": {
+      "S3Bucket": "linux-base-images",
+      "S3Key": "Base-CIS-Ubuntu22-04-1-2022-06-10-with-swap.raw"
+    }
+  }
+]

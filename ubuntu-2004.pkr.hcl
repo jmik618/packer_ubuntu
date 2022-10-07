@@ -65,7 +65,7 @@ source "qemu" "ubuntu-amd64-qemu" {
     "<enter>"
   ]
   http_directory    = "http-server"
-  shutdown_command  = "echo '' | sudo -S shutdown -P now"
+  shutdown_command  = "echo '${var.build_password}' | sudo -S shutdown -P now"
   ssh_username      = "ondemand"
   ssh_password      = "${var.build_password}"
   ssh_timeout       = "600m"
